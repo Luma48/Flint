@@ -1,0 +1,72 @@
+{
+    "window": [
+        10,
+        10,
+        10
+    ],
+    "window_text": [
+        0,
+        255,
+        0
+    ],
+    "base": [
+        0,
+        20,
+        0
+    ],
+    "alternate_base": [
+        0,
+        40,
+        0
+    ],
+    "tooltip_base": [
+        10,
+        30,
+        10
+    ],
+    "tooltip_text": [
+        0,
+        255,
+        0
+    ],
+    "text": [
+        0,
+        255,
+        0
+    ],
+    "button": [
+        0,
+        30,
+        0
+    ],
+    "button_text": [
+        0,
+        255,
+        0
+    ],
+    "bright_text": [
+        255,
+        0,
+        0
+    ],
+    "highlight": [
+        0,
+        180,
+        0
+    ],
+    "highlighted_text": [
+        0,
+        0,
+        0
+    ],
+    "disabled_text": [
+        0,
+        100,
+        0
+    ],
+    "disabled_button_text": [
+        0,
+        110,
+        0
+    ]
+}

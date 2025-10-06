@@ -1,0 +1,16 @@
+{
+    "window": [255, 182, 193],
+    "window_text": [80, 0, 60],
+    "base": [255, 210, 230],
+    "alternate_base": [255, 170, 200],
+    "tooltip_base": [255, 240, 250],
+    "tooltip_text": [60, 0, 40],
+    "text": [80, 0, 60],
+    "button": [255, 240, 120],
+    "button_text": [120, 60, 0],
+    "bright_text": [255, 105, 180],
+    "highlight": [135, 206, 250],
+    "highlighted_text": [0, 0, 80],
+    "disabled_text": [180, 150, 160],
+    "disabled_button_text": [180, 150, 160]
+}
