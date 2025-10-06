@@ -1,6 +1,6 @@
 # Flint - A Super Paper Mario Text Editor
 ## About this editor
-Heya guys this is the first release an SPM tool to come out of my **CragonSuit** named **Flint** (after Flint Cragely of course).\
+Heya guys this is the first release of an SPM tool to come out of my **CragonSuit** named **Flint** (after Flint Cragely of course).\
 This tool allows you to edit all of the text found in Super Paper Mario and preview how it will look in game before you load your 
 Riivolution Patches.\
 <img width="720" height="480" alt="Overview.png" src="https://github.com/user-attachments/assets/adcd6532-f575-4ee2-bbeb-240484fe1a51" />
