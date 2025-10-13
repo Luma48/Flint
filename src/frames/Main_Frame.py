@@ -1,7 +1,4 @@
-from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QTextEdit,
-    QLabel, QDockWidget
-)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QDockWidget)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import QSettings, Qt
 
@@ -9,38 +6,32 @@ from PyQt5.QtCore import QSettings, Qt
 from managers.Toolbar_Manager import build_toolbar
 from managers.Resource_Manager import get_external_resource, load_font
 from managers.Sound_Manager import play_bgm_track
-from managers.Search_Text_Manager import SearchableTextEdit
+from managers.Search_Text_Manager import SearchableTextEdit, SearchableBubbleViewer
 from managers.Debug_Manager import debug
 
 from renderer.parsing.spm_parser import parse_spm_text
 from renderer.ui.bubble_viewer import BubbleViewer
 from renderer.ui.bubble_widget import BubbleWidget
 
-#===================================================================================================================================
-# Main Window
-#===================================================================================================================================
 class MainFrame(QMainWindow):
-
     def __init__(self):
         super().__init__()
-
-        self._window_title = "Flint V1.0 by Luma48"
+        self._window_title = "Flint V1.3 by Luma48"
         self._init_window()
+
+        self.font_family = load_font("Packaged_Resources/Fonts/ProgramFont.ttf")
         self._init_text_editor()
         self._init_bubble_viewer()
+
         self._init_status_label()
         self._init_toolbar()
         self._init_bgm()
 
-        # Add docks to main window
         self.addDockWidget(Qt.LeftDockWidgetArea, self.text_dock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.bubble_dock)
 
         self.current_file_path = None
-
-        # Refresh bubble view from text editor
         self.refresh_view()
-
         debug.info("MainFrame initialized successfully!")
 
     # =====================================================================
@@ -75,8 +66,7 @@ class MainFrame(QMainWindow):
         self._update_adaptive_widgets(self.toolbar.orientation())
 
     def _on_toolbar_orientation_changed(self, orientation):
-        for widget in self.adaptive_widgets:
-            widget.update_orientation(orientation)
+        self._update_adaptive_widgets(orientation)
 
     def _update_adaptive_widgets(self, orientation):
         for widget in self.adaptive_widgets:
@@ -95,9 +85,7 @@ class MainFrame(QMainWindow):
     # Text Editor Dock (with searchbar)
     # =====================================================================
     def _init_text_editor(self):
-        self.font_family = load_font("Packaged_Resources/Fonts/ProgramFont.ttf")
         custom_font = QFont(self.font_family, 12)
-        
         self.text_editor = SearchableTextEdit(font=custom_font)
         self.text_editor.text_editor.setReadOnly(False)
 
@@ -105,6 +93,7 @@ class MainFrame(QMainWindow):
         self.text_dock.setWidget(self.text_editor)
         self.text_dock.setFloating(False)
         self.text_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+        self.text_dock.setFeatures(QDockWidget.NoDockWidgetFeatures)
         debug.info("Text editor dock initialized with custom font.")
 
     # =====================================================================
@@ -112,10 +101,14 @@ class MainFrame(QMainWindow):
     # =====================================================================
     def _init_bubble_viewer(self):
         self.bubble_viewer = BubbleViewer([], self.font_family, self)
+        custom_font = QFont(self.font_family, 12)
+        self.searchable_bubble_viewer = SearchableBubbleViewer(self.bubble_viewer, font=custom_font)
+
         self.bubble_dock = QDockWidget("Bubbles View", self)
-        self.bubble_dock.setWidget(self.bubble_viewer)
+        self.bubble_dock.setWidget(self.searchable_bubble_viewer)
         self.bubble_dock.setFloating(False)
         self.bubble_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+        self.bubble_dock.setFeatures(QDockWidget.NoDockWidgetFeatures)
         debug.info("Bubble viewer dock initialized.")
 
     # =====================================================================
@@ -123,30 +116,21 @@ class MainFrame(QMainWindow):
     # =====================================================================
     def refresh_view(self, changed_keys=None):
         debug.debug("Refreshing bubble viewer from text editor...")
-        self._update_bubbles_from_current_doc()
-        debug.debug("View successfully refreshed!")
-
-    def _update_bubbles_from_current_doc(self):
         text = self.text_editor.toPlainText()
         blocks = parse_spm_text(text)
-        self._clear_bubble_viewer()
+        self.bubble_viewer.clear_bubbles()
+
+        # Create BubbleWidgets for each BubbleBlock
         layout = self.bubble_viewer.widget().layout()
         widgets = [BubbleWidget(b, self.font_family, self.bubble_viewer) for b in blocks]
-        for w in widgets:
-            layout.addWidget(w)
-        layout.addStretch(1)
-        if widgets:
-            self.bubble_viewer.set_active_bubble(widgets[0], play_sound=False)
+        for widget in widgets:
+            layout.addWidget(widget)
+            self.bubble_viewer.bubble_widgets.append(widget)
 
-    def _clear_bubble_viewer(self):
-        layout = self.bubble_viewer.widget().layout()
-        for i in reversed(range(layout.count())):
-            item = layout.itemAt(i)
-            w = item.widget()
-            if w:
-                w.setParent(None)
-            else:
-                layout.removeItem(item)
+        layout.addStretch(1)
+        if self.bubble_viewer.bubble_widgets:
+            self.bubble_viewer.set_active_bubble(self.bubble_viewer.bubble_widgets[0], play_sound=False)
+        debug.debug("View successfully refreshed!")
 
     # =====================================================================
     # Window title

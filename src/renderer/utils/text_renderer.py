@@ -38,7 +38,6 @@ def _span_fontsize(size: int) -> str:
     return f'<span style="font-size: {size}px;">'
 
 def _icon_with_value(icon_key: str, base_font_size: int, value: Optional[int] = None) -> str:
-    """Generic handler for tags like <dynamic>, <shake>, <wave>."""
     icon_img = _img_tag(get_resource(TAG_ICON_MAP[icon_key]), base_font_size)
     if value is not None:
         return f"{icon_img}<span style='color: gray;'>{value}</span>"

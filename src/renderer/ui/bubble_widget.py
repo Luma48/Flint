@@ -1,6 +1,4 @@
-from PyQt5.QtWidgets import (
-    QWidget, QLabel, QVBoxLayout, QHBoxLayout, QTextBrowser
-)
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QTextBrowser
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QTimer
 
@@ -34,7 +32,6 @@ class BubbleWidget(QWidget):
         meta_row = QHBoxLayout()
         meta_row.setSpacing(8)
         meta_row.addStretch(1)
-
         meta_row.addWidget(ParamBox(block.stage_npc, font_family))
 
         type_display_map = {
@@ -61,7 +58,6 @@ class BubbleWidget(QWidget):
 
         bubble_sound_text = block.bubble_sound.capitalize()
         meta_row.addWidget(ParamBox(bubble_sound_text, font_family))
-
         meta_row.addStretch(1)
         outer.addLayout(meta_row)
 
@@ -73,7 +69,6 @@ class BubbleWidget(QWidget):
         self.bg_label = QLabel(self)
         self.bg_label.setPixmap(pixmap)
 
-        # Treat select like adv_select: fixed size, no scaling (THIS IS STUPID)
         if block.bubble_type in ("select", "adv_select"):
             self.bg_label.setFixedSize(pixmap.size())
             self.bg_label.setScaledContents(False)
@@ -83,8 +78,7 @@ class BubbleWidget(QWidget):
                 self.bg_label.setFixedSize(w, h)
             else:
                 self.bg_label.setFixedSize(pixmap.size())
-        
-        # Align bubbles to center
+
         outer.addWidget(self.bg_label, alignment=Qt.AlignHCenter)
 
         # =====================================================================
@@ -96,18 +90,16 @@ class BubbleWidget(QWidget):
         self.text_label.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.text_label.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.text_label.setFont(QFont(font_family, 12))
-        
-        # Font colour handler (dependant on bubble type)
+
         if block.bubble_type in ("system", "majo", "adv", "adv_select", "clear"):
             self.text_label.setStyleSheet("QTextBrowser { color: white; background: transparent; }")
         else:
             self.text_label.setStyleSheet("QTextBrowser { color: black; background: transparent; }")
 
-        # margins relative to bubble size
+        # Margins for text
         self.margin_x = max(40, int(self.bg_label.width() * 0.02))
         self.margin_y_top = max(25, int(self.bg_label.height() * 0.18))
         self.margin_y_bottom = max(20, int(self.bg_label.height() * 0.04))
-
         self.text_label.setGeometry(
             self.margin_x,
             self.margin_y_top,
@@ -124,7 +116,7 @@ class BubbleWidget(QWidget):
         self.page_counter.setStyleSheet("QLabel { color: gray; background: transparent; }")
 
         # =====================================================================
-        # # Cursor Animation
+        # Cursor Animation
         # =====================================================================
         self.cursor_label = QLabel(self.bg_label)
         self.cursor_frames = [
@@ -136,16 +128,81 @@ class BubbleWidget(QWidget):
         ]
         self.cursor_label.setPixmap(self.cursor_frames[0])
         self.cursor_label.setScaledContents(True)
-        self.cursor_label.setGeometry(self.bg_label.width() - 36 - 2, 4 + 2, 32, 32)
+        self.cursor_label.setGeometry(self.bg_label.width() - 36 - 2, 6, 32, 32)
         self.cursor_label.hide()
 
         self.cursor_timer = QTimer(self)
         self.cursor_timer.timeout.connect(self._animate_cursor)
         self.cursor_timer.start(150)
-        
-        #Init
+
         self.setFocusPolicy(Qt.StrongFocus)
         self._render_page()
+
+    # =====================================================================
+    # Highlighting for search
+    # =====================================================================
+    def get_text(self) -> str:
+        return "\n".join(self.block.pages) if self.block.pages else ""
+
+    def set_highlight(self, active: bool):
+        if active:
+            self.setStyleSheet("QWidget { border: 3px solid yellow; }")
+        else:
+            self.setStyleSheet("")
+
+    # =====================================================================
+    # Page rendering
+    # =====================================================================
+    def _render_page(self):
+        raw_text = self.block.pages[self.current_page] if self.block.pages else ""
+        if self.block.bubble_type in ("select", "adv_select"):
+            options = raw_text.split("\n")
+            html_lines = [f"• {opt.strip()}" for opt in options if opt.strip()]
+            processed = "<br>".join(html_lines)
+        else:
+            raw_text = raw_text.replace("\n", "<br>")
+            processed = render_text_with_tags(raw_text, 20)
+        line_spacing = 1.3
+        html_text = f'<div style="line-height: {line_spacing};">{processed}</div>'
+        self.text_label.setHtml(html_text)
+
+        if len(self.block.pages) > 1:
+            self.page_counter.setText(f"{self.current_page + 1}/{len(self.block.pages)}")
+            self.page_counter.show()
+            self._position_page_counter()
+        else:
+            self.page_counter.hide()
+
+    # =====================================================================
+    # Input Handling
+    # =====================================================================
+    def mousePressEvent(self, event):
+        if self.viewer:
+            self.viewer.set_active_bubble(self)
+        if event.button() == Qt.LeftButton and self.current_page < len(self.block.pages) - 1:
+            self.current_page += 1
+            self._render_page()
+            if should_play_sounds():
+                play_sound_by_name("menu_message_skip")
+        elif event.button() == Qt.RightButton and self.current_page > 0:
+            self.current_page -= 1
+            self._render_page()
+            if should_play_sounds():
+                play_sound_by_name("menu_message_skip")
+
+    def resizeEvent(self, event):
+        self.text_label.setGeometry(
+            self.margin_x,
+            self.margin_y_top,
+            self.bg_label.width() - (2 * self.margin_x),
+            self.bg_label.height() - (self.margin_y_top + self.margin_y_bottom),
+        )
+        self._position_page_counter()
+        super().resizeEvent(event)
+
+    def showEvent(self, event):
+        self._position_page_counter()
+        super().showEvent(event)
 
     def _position_page_counter(self):
         if not self.page_counter.isVisible():
@@ -165,71 +222,3 @@ class BubbleWidget(QWidget):
     def set_cursor_visible(self, visible: bool):
         self.cursor_visible = visible
         self.cursor_label.setVisible(visible)
-
-    # =====================================================================
-    # Page render in bubble widget
-    # =====================================================================
-    def _render_page(self):
-        raw_text = self.block.pages[self.current_page] if self.block.pages else ""
-        
-        # Bullet Point rendering for select and adv_select
-        if self.block.bubble_type in ("select", "adv_select"):
-            options = raw_text.split("\n")
-            html_lines = [f"• {opt.strip()}" for opt in options if opt.strip()]
-            processed = "<br>".join(html_lines)
-        else:
-            # Normal line rendering for all other types
-            raw_text = raw_text.replace("\n", "<br>")
-            processed = render_text_with_tags(raw_text, 20)  # match font size
-
-        # Apply line spacing
-        line_spacing = 1.3
-        html_text = f'<div style="line-height: {line_spacing};">{processed}</div>'
-        self.text_label.setHtml(html_text)
-
-        # Visible page counter rules
-        if len(self.block.pages) > 1:
-            self.page_counter.setText(f"{self.current_page + 1}/{len(self.block.pages)}")
-            self.page_counter.show()
-            self._position_page_counter()
-        else:
-            self.page_counter.hide()
-
-    # =====================================================================
-    # Input Handeling
-    # =====================================================================
-    def mousePressEvent(self, event):
-        if self.viewer:
-            self.viewer.set_active_bubble(self)
-
-        if event.button() == Qt.LeftButton:
-            if self.current_page < len(self.block.pages) - 1:
-                self.current_page += 1
-                self._render_page()
-                if should_play_sounds():
-                    play_sound_by_name("menu_message_skip")
-        elif event.button() == Qt.RightButton:
-            if self.current_page > 0:
-                self.current_page -= 1
-                self._render_page()
-                if should_play_sounds():
-                    play_sound_by_name("menu_message_skip")
-
-    # =====================================================================
-    # Events
-    # =====================================================================
-    # Recomputes geometry of text box and page counter whenever bubble resizes
-    def resizeEvent(self, event):
-        self.text_label.setGeometry(
-            self.margin_x,
-            self.margin_y_top,
-            self.bg_label.width() - (2 * self.margin_x),
-            self.bg_label.height() - (self.margin_y_top + self.margin_y_bottom),
-        )
-        self._position_page_counter()
-        super().resizeEvent(event)
-
-    # Makes sure page counter is positioned properly when widget first appears
-    def showEvent(self, event):
-        self._position_page_counter()
-        super().showEvent(event)

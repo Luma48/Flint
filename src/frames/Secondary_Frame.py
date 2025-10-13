@@ -228,7 +228,7 @@ class SecondaryFrame:
                 # percent_label can always use title_font (even if title_label is None)
                 if title_font:
                     percent_label.setFont(title_font)
-                percent_label.setFixedWidth(48)
+                percent_label.setFixedWidth(60)
                 percent_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
                 slider_row_layout.addWidget(slider)

@@ -33,7 +33,7 @@ class BoxTypes(QWidget):
         #===================================================================
         # Basic Window Params
         #===================================================================
-        self.setWindowTitle("Speach Bubble Types")
+        self.setWindowTitle("Speech Bubble Types")
         SecondaryFrame.set_fixed_size(self, parent, 0.7, 0.9)
 
         # Window Contents
@@ -52,7 +52,7 @@ class BoxTypes(QWidget):
         # Title label
         title_text = (
             f"<span style=\"font-family:'{font_family}'; font-weight:bold; font-size:16pt;\">"
-            "Super Paper Mario<br>Speach Bubbles"
+            "Super Paper Mario<br>Speech Bubbles"
             "</span>"
         )
         self.title_label = SecondaryFrame.add_text_label(layout, title_text, QtCore.Qt.AlignCenter)
@@ -61,35 +61,35 @@ class BoxTypes(QWidget):
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Speach Bubble"
+            "<br><br>Speech Bubble"
             "</div>"
             # Description
             "The Standard Bubble Styling used throughout all of the game. This one has no associated tag and the game will fall back to it if no other bubble is specified."
         )
         self.normal_label = SecondaryFrame.add_text_label(layout, normal_text, QtCore.Qt.AlignCenter)
-        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Speach_Bubble.png", 400)
+        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Speech_Bubble.png", 400)
 
         small_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Small Speach Bubble"
+            "<br><br>Small Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
             "<span style='color:#4CAF50;'>&lt;small&gt;</span>"
             "</div>"
             # Description
-            "A small speach bubble used when characters say something to themselves or under their breath."
+            "A small Speech bubble used when characters say something to themselves or under their breath."
         )
         self.small_label = SecondaryFrame.add_text_label(layout, small_text, QtCore.Qt.AlignCenter)
-        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Small_Speach_Bubble.png", 200)
+        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Small_Speech_Bubble.png", 200)
 
         pixl_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Pixl Speach Bubble"
+            "<br><br>Pixl Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -101,13 +101,13 @@ class BoxTypes(QWidget):
             "The Bubble Styling used for all pixl's throughout all of the game. While simillar to the default bubble it has an animated rainbow outline."
         )
         self.pixl_label = SecondaryFrame.add_text_label(layout, pixl_text, QtCore.Qt.AlignCenter)
-        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Pixel_Speach_Bubble.png", 400)
+        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Pixel_Speech_Bubble.png", 400)
 
         robo_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Robo Speach Bubble"
+            "<br><br>Robo Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -117,13 +117,13 @@ class BoxTypes(QWidget):
             "The Bubble Styling used for all robotic based characters and interactions throughout all of the game. It has a more jaged appearence than the default bubble."
         )
         self.robo_label = SecondaryFrame.add_text_label(layout, robo_text, QtCore.Qt.AlignCenter)
-        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Robo_Speach_Bubble.png", 400)
+        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Robo_Speech_Bubble.png", 400)
 
         kanban_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Signpost Speach Bubble"
+            "<br><br>Signpost Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -139,7 +139,7 @@ class BoxTypes(QWidget):
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Swoon.exe Speach Bubble"
+            "<br><br>Swoon.exe Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -149,13 +149,13 @@ class BoxTypes(QWidget):
             "The Bubble Styling used during the Swoon.exe dating segement with Princess Peach and Francis."
         )
         self.swoon_label = SecondaryFrame.add_text_label(layout, swoon_text, QtCore.Qt.AlignCenter)
-        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Swoon_Speach_Bubble.png", 400)
+        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Swoon_Speech_Bubble.png", 400)
 
         select_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             # h2
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Option Dialog Speach Bubble"
+            "<br><br>Option Dialog Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -182,7 +182,7 @@ class BoxTypes(QWidget):
         swoonselect_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Swoon.exe Option Dialog Speach Bubble"
+            "<br><br>Swoon.exe Option Dialog Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -209,7 +209,7 @@ class BoxTypes(QWidget):
         intermission_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Intermission Speach Bubble"
+            "<br><br>Intermission Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -224,7 +224,7 @@ class BoxTypes(QWidget):
         diary_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Diary Speach Bubble"
+            "<br><br>Diary Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -239,7 +239,7 @@ class BoxTypes(QWidget):
         mimi_text = (
             f"<div style=\"font-family:'{font_family}'; font-size: 10pt;\">"
             "<div style=\"font-weight:bold; font-size:12pt; margin-bottom:15px; color:#FFBF00\">"
-            "<br><br>Mimi Speach Bubble"
+            "<br><br>Mimi Speech Bubble"
             "</div>"
             # md code syntax
             "<div style='font-family:Courier New, monospace; font-size:14pt; margin:6px 0;'>"
@@ -249,7 +249,7 @@ class BoxTypes(QWidget):
             "The Bubble Styling used when Mimi transforms into \"Spider-Mimi\"."
         )
         self.mimi_label = SecondaryFrame.add_text_label(layout, mimi_text, QtCore.Qt.AlignCenter)
-        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Mimi_Speach_Bubble.png", 400)
+        SecondaryFrame.add_image(self, layout, "Packaged_Resources/Images/Bubbles/Mimi_Speech_Bubble.png", 400)
         
         #===================================================================
         # Drawing the Window

@@ -39,7 +39,7 @@ class About(QDialog):
         # Title label
         title_text = (
             f"<span style=\"font-family:'{font_family}'; font-weight:bold; font-size:16pt;\">"
-            "Flint V1.0"
+            "Flint V1.3"
             "</span>"
         )
         self.title_label = SecondaryFrame.add_text_label(layout, title_text, QtCore.Qt.AlignCenter)
@@ -48,7 +48,8 @@ class About(QDialog):
         dev_text = (
             f"<span style=\"font-family:'{font_family}'; font-weight:bold; font-size:10pt;\">"
             "Developed by <span style='color:#FFA500;'>Luma48</span><br>"
-            '<a href="https://github.com/Luma48/Flint">Visit: https://github.com/Luma48/Flint</a>'
+            '<a href="https://github.com/Luma48/Flint">Github: https://github.com/Luma48/Flint</a><br>'
+            '<a href="https://www.youtube.com/watch?v=vpHN_rumHqc&t=1s">YouTube: Flint Trailer</a>'
             "</span>"
         )
         self.dev_label = SecondaryFrame.add_text_label(layout, dev_text, QtCore.Qt.AlignCenter)
