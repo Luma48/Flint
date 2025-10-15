@@ -262,7 +262,7 @@ Stay tuned for all this stuff. Hopefully the current build is still enjoyable ex
 
 ## Special Thanks
 Thank you for checking out the first to hopefully many tools to come from me!\
-If you'd like to support my work you can do so on Patreon but feel no obligation to of course: (later date I want some content to justify this)\
+If you'd like to support my work you can do so on Ko-Fi but feel no obligation to of course: https://ko-fi.com/luma48 \
 For more from me you can visit my YT Channel and find more of my to be content: https://www.youtube.com/@luma4826 \
 <img width="220" height="220" alt="Luma48.png" src="https://github.com/user-attachments/assets/a9873609-5807-4053-b7a4-bf093181abb5" />
 
